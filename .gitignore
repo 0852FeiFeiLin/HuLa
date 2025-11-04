@@ -40,3 +40,9 @@ AGENTS.md
 
 src/typings/components.pc.d.ts
 src/typings/components.mobile.d.ts
+
+# Android APK files
+*.apk
+*.apk.idsig
+*.keystore
+
