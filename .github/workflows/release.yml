@@ -135,6 +135,6 @@ jobs:
           tagName: v__VERSION__ #这个动作会自动将\_\_VERSION\_\_替换为app version
           releaseName: 'v__VERSION__'
           releaseBody: 'See the assets to download and install this version.'
-          releaseDraft: true
+          releaseDraft: false  # 改为 false 自动发布
           prerelease: false
           args: ${{ matrix.args }}
