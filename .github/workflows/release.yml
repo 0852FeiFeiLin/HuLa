@@ -193,8 +193,24 @@ jobs:
           echo "y" | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "ndk;26.1.10909125"
           echo "NDK_HOME=${ANDROID_HOME}/ndk/26.1.10909125" >> $GITHUB_ENV
 
+      - name: Clear Gradle caches (prevent corruption)
+        run: |
+          rm -rf ~/.gradle/caches/
+          rm -rf ~/.gradle/wrapper/
+          rm -rf src-tauri/gen/android/.gradle/
+          rm -rf src-tauri/gen/android/build/
+          echo "✓ Gradle caches cleared"
+
       - name: Build Android APK
-        run: pnpm tauri android build
+        run: |
+          # 尝试构建,如果失败则清理缓存后重试
+          if ! pnpm tauri android build; then
+            echo "⚠️ Build failed, cleaning caches and retrying..."
+            rm -rf ~/.gradle/caches/
+            rm -rf ~/.gradle/wrapper/
+            rm -rf src-tauri/gen/android/.gradle/
+            pnpm tauri android build
+          fi
 
       - name: Sign APK
         run: |
